@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Threadripper</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Unbounded:wght@200;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f5f3;
+      --surface: #ffffff;
+      --border: #e0e0e0;
+      --text: #111111;
+      --muted: #888888;
+      --accent: #111111;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .header-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .header-title {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    /* Links block */
+    .links {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 1.4rem;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.18s ease, padding-left 0.18s ease;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .link-item:last-child {
+      border-bottom: none;
+    }
+
+    .link-item:hover {
+      background: #f0f0ee;
+      padding-left: 1.8rem;
+    }
+
+    .link-item:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .link-icon {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .link-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .link-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .link-platform {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .link-handle {
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .arrow {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: transform 0.18s ease;
+    }
+
+    /* CTA button */
+    .cta-wrap {
+      margin-top: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1.2rem 1.4rem;
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      transition: background 0.18s ease, gap 0.18s ease;
+    }
+
+    .cta-btn:hover {
+      background: #2a2a2a;
+    }
+
+    .cta-btn:hover .cta-arrow {
+      transform: translateX(4px);
+    }
+
+    .cta-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .cta-dot {
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+
+    .cta-arrow {
+      font-size: 1rem;
+      transition: transform 0.18s ease;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 2.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #cccccc;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    .header      { animation-delay: 0.05s; }
+    .link-item:nth-child(1) { animation-delay: 0.15s; }
+    .link-item:nth-child(2) { animation-delay: 0.25s; }
+    .cta-wrap    { animation-delay: 0.35s; }
+    .footer      { animation-delay: 0.45s; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <p class="header-label">Links</p>
+      <h1 class="header-title">Threadripper</h1>
+    </div>
+
+    <div class="links">
+      <!-- Telegram channel -->
+      <a class="link-item" href="https://t.me/threadtgk" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-icon">
+            <!-- Telegram icon -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.93 3.24L1.84 10.96c-1.32.5-1.31 1.2-.24 1.51l5.17 1.61 2 6.08c.26.72.13 1 .87 1 .57 0 .82-.26 1.14-.57l2.73-2.66 5.68 4.19c1.05.58 1.8.28 2.06-.97L23.94 4.6c.38-1.52-.58-2.21-2.01-1.36Z" fill="#111"/>
+            </svg>
+          </div>
+          <div class="link-info">
+            <span class="link-platform">Telegram</span>
+            <span class="link-handle">@threadtgk</span>
+          </div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <!-- TikTok -->
+      <a class="link-item" href="https://www.tiktok.com/@threadripper.exe?_r=1&_t=ZS-94qmgi5g20C" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-icon">
+            <!-- TikTok icon -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07Z" fill="#111"/>
+            </svg>
+          </div>
+          <div class="link-info">
+            <span class="link-platform">TikTok</span>
+            <span class="link-handle">@threadripper.exe</span>
+          </div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <a class="cta-btn" href="https://t.me/threadvv" target="_blank" rel="noopener">
+        <div class="cta-left">
+          <span class="cta-dot"></span>
+          <span>Есть вопросы? Пиши в ТГ</span>
+        </div>
+        <span class="cta-arrow">→</span>
+      </a>
+    </div>
+
+    <p class="footer">© Thread · 2026</p>
+
+  </div>
+</body>
+</html>
